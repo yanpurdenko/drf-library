@@ -21,5 +21,5 @@ from library_service import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("books/", include("books.urls"), namespace="books")
+    path("api/books/", include("books.urls", namespace="books"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
