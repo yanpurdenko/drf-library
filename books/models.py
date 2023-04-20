@@ -38,6 +38,10 @@ class Book(models.Model):
     daily_fee = models.DecimalField(max_digits=4, decimal_places=2)
     image = models.ImageField(null=True, upload_to=book_image_file_path)
 
+    @property
+    def price_display(self):
+        return "$%s" % self.daily_fee
+
     class Meta:
         ordering = ["title"]
 
