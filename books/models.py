@@ -1,7 +1,6 @@
 import os
 import uuid
 
-from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.text import slugify
 
@@ -34,7 +33,7 @@ class Book(models.Model):
     description = models.CharField(max_length=255, null=True, blank=True)
     genres = models.ManyToManyField(Genre, blank=True)
     cover = models.CharField(max_length=4, choices=COVER_CHOICES)
-    inventory = models.IntegerField(default=1, validators=[MinValueValidator(0)])
+    inventory = models.PositiveIntegerField(default=1)
     daily_fee = models.DecimalField(max_digits=4, decimal_places=2)
     image = models.ImageField(null=True, upload_to=book_image_file_path)
 
@@ -46,4 +45,4 @@ class Book(models.Model):
         ordering = ["title"]
 
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.author} (Inventory: {self.inventory})"
