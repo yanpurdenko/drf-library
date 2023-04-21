@@ -10,7 +10,9 @@ router = routers.DefaultRouter()
 router.register("genres", GenreViewSet)
 router.register("books", BookViewSet)
 
-urlpatterns = [path("", include(router.urls))] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = [
+    path("", include(router.urls))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 app_name = "books"
