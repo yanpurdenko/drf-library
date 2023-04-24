@@ -32,8 +32,7 @@ class Borrowing(models.Model):
     @property
     def total_price(self) -> Decimal:
         return (
-                self.book_id.daily_fee
-                * (self.expected_return_date - self.borrow_date).days
+            self.book_id.daily_fee * (self.expected_return_date - self.borrow_date).days
         )
 
     @property
@@ -41,9 +40,11 @@ class Borrowing(models.Model):
         if self.actual_return_date is None:
             return None
         return (
-                self.book_id.daily_fee
-                * (self.actual_return_date - self.expected_return_date).days
+            self.book_id.daily_fee
+            * (self.actual_return_date - self.expected_return_date).days
         )
 
     def __str__(self) -> str:
-        return f"{self.book_id}: from {self.borrow_date} to {self.expected_return_date}."
+        return (
+            f"{self.book_id}: from {self.borrow_date} to {self.expected_return_date}."
+        )
