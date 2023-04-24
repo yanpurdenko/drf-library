@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Type
 
 from django.db.models import QuerySet
 from rest_framework import mixins, viewsets, status
@@ -8,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 
 from borrowings.models import Borrowing
-from borrowings.serializers import BorrowingSerializer
+from borrowings.serializers import BorrowingSerializer, BorrowingListRetrieveSerializer
 
 
 class BorrowingsViewSet(
@@ -38,7 +39,15 @@ class BorrowingsViewSet(
 
         return queryset.filter(user_id=self.request.user)
 
-    @action(detail=True, methods=["POST"], url_path="return", serializer_class=Serializer)
+    def get_serializer_class(self) -> Type[Serializer]:
+        if self.action in ("list", "retrieve"):
+            return BorrowingListRetrieveSerializer
+
+        return super().get_serializer_class()
+
+    @action(
+        detail=True, methods=["POST"], url_path="return", serializer_class=Serializer
+    )
     def return_book(self, request: Request, pk: int = None) -> Response:
         borrowing = self.get_object()
         if borrowing.actual_return_date is not None:
