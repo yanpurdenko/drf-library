@@ -4,9 +4,11 @@ from typing import Type
 from django.db.models import QuerySet
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer, BorrowingListRetrieveSerializer
@@ -20,6 +22,8 @@ class BorrowingsViewSet(
 ):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self) -> QuerySet:
         queryset = super().get_queryset()
