@@ -1,9 +1,9 @@
 from django.db import transaction
-from django.db.utils import IntegrityError
 from rest_framework import serializers
 
 from books.serializers import BookSerializer
 from borrowings.models import Borrowing
+from borrowings.service import send_telegram_notification
 
 
 class BorrowingSerializer(serializers.ModelSerializer):
@@ -29,7 +29,9 @@ class BorrowingSerializer(serializers.ModelSerializer):
             instance = super().create(validated_data)
             instance.book_id.inventory -= 1
             instance.book_id.save()
-
+            send_telegram_notification(
+                f"Hello World. This is a new borrowing! Data: {dict(validated_data)}"
+            )
             return instance
 
 
