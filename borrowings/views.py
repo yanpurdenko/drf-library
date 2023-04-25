@@ -68,4 +68,4 @@ class BorrowingsViewSet(
         return Response(BorrowingSerializer(borrowing).data, status=status.HTTP_200_OK)
 
     def perform_create(self, serializer: BorrowingSerializer):
-        return serializer.save(user=self.request.user)
+        return serializer.save(user_id=self.request.user)
