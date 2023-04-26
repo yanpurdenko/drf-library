@@ -11,7 +11,7 @@ class Genre(models.Model):
     class Meta:
         ordering = ["name"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -38,11 +38,11 @@ class Book(models.Model):
     image = models.ImageField(null=True, upload_to=book_image_file_path)
 
     @property
-    def price_display(self):
+    def price_display(self) -> str:
         return "$%s" % self.daily_fee
 
     class Meta:
         ordering = ["title"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.title} - {self.author} (Inventory: {self.inventory})"
