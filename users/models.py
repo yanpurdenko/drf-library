@@ -46,7 +46,7 @@ class User(AbstractUser):
         default=uuid.uuid4,
         editable=False,
         unique=True,
-        )
+    )
     username = None
     email = models.EmailField(gettext("email address"), unique=True)
 

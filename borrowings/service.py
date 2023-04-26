@@ -1,6 +1,6 @@
 import requests
-from requests import Response
 
+from requests import Response
 from library_service.settings import BOT_TOKEN, CHAT_ID
 
 URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"

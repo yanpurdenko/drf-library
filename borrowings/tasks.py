@@ -1,8 +1,8 @@
 from datetime import datetime, date, timedelta
 
 from borrowings.models import Borrowing
-from library_service.celery import app
 from borrowings.service import send_telegram_notification
+from library_service.celery import app
 
 
 @app.task
