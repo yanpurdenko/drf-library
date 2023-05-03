@@ -1,4 +1,7 @@
-from datetime import datetime, date, timedelta
+from datetime import date
+
+from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from borrowings.models import Borrowing
 from borrowings.service import send_telegram_notification
@@ -8,17 +11,23 @@ from library_service.celery import app
 @app.task
 def check_overdue_borrowings() -> None:
     overdue_borrowings = Borrowing.objects.filter(
-        actual_return_date__isnull=True,
-        expected_return_date__lte=date.today() - timedelta(days=1),
-    ).select_related("user_id")
-    message = f'Список просроченных займов на {datetime.now().strftime("%Y-%m-%d")}:\n'
+        Q(expected_return_date__lt=date.today()) & Q(actual_return_date=None)
+    )
 
-    if len(overdue_borrowings) == 0:
-        message = "No borrowings overdue today!"
-        send_telegram_notification(message)
-        return
-
-    for borrowing in overdue_borrowings:
-        message += f"- {borrowing}\n"
-
-    send_telegram_notification(message)
+    if overdue_borrowings.exists():
+        for borrowing in overdue_borrowings:
+            user = get_user_model().objects.get(id=borrowing.user_id.id)
+            message = (
+                f"Overdue borrowing:\n"
+                f"id: {borrowing.id}\n"
+                f"Borrow date: {borrowing.borrow_date}\n"
+                f"Expected return date: "
+                f"{borrowing.expected_return_date}\n"
+                f"Overdue days: {date.today() - borrowing.expected_return_date}\n"
+                f"Book: {borrowing.book_id}\n"
+                f"User id: {borrowing.user_id}\n"
+                f"Email: {user.email}"
+            )
+            send_telegram_notification(message)
+    else:
+        send_telegram_notification(message="No borrowings overdue today!")
