@@ -2,6 +2,7 @@ from datetime import date
 from typing import Type
 
 from django.db.models import QuerySet
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -69,3 +70,20 @@ class BorrowingsViewSet(
 
     def perform_create(self, serializer: BorrowingSerializer):
         return serializer.save(user_id=self.request.user)
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "user_id",
+                type={"type": "list", "items": {"type": "string"}},
+                description="Filter by user id (ex. ?user_id=uuid)"
+            ),
+            OpenApiParameter(
+                "is_active",
+                type=int,
+                description="Filter by user_id & is_active (ex. ?is_active=(1/0))",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
