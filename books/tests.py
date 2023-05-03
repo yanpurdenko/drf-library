@@ -17,7 +17,7 @@ def sample_books(**params):
         "author": "Test",
         "inventory": 10,
         "daily_fee": 1.00,
-        "cover": "Hard"
+        "cover": "Hard",
     }
     defaults.update(params)
 
@@ -31,10 +31,6 @@ def sample_genres(**params):
     defaults.update(params)
 
     return Genre.objects.create(**defaults)
-
-
-def detail_url(book_id):
-    return reverse("books:book-detail", args=[book_id])
 
 
 class PublicBookApiTests(TestCase):
