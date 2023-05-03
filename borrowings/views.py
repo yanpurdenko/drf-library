@@ -5,6 +5,7 @@ from django.db.models import QuerySet
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -15,6 +16,12 @@ from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer, BorrowingListRetrieveSerializer
 
 
+class BorrowingsPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = "page_size"
+    max_page_size = 100
+
+
 class BorrowingsViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
@@ -23,6 +30,7 @@ class BorrowingsViewSet(
 ):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
+    pagination_class = BorrowingsPagination
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticated,)
 
