@@ -65,7 +65,7 @@ Alos use http://127.0.0.1:8000/ url instead of http://0.0.0.0:8000/
 ## Getting access
 
 - create user via /api/users/token/
-- get access token via /api/user/token/
+- get access token via /api/users/token/
 
 
 ## How to try it out
