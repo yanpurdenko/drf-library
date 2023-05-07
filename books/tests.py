@@ -45,7 +45,7 @@ class PublicBookApiTests(TestCase):
         response = self.client.get(GENRE_URL)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_book_post(self):
+    def test_book_post_unauthorized(self):
         payload = {
             "title": "Test",
             "author": "Test",
@@ -63,7 +63,7 @@ class PublicBookApiTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_genre_post(self):
+    def test_genre_post_unauthorized(self):
         payload = {
             "name": "Test",
         }
@@ -88,7 +88,7 @@ class PrivateBookApiTests(TestCase):
         serializer = BookSerializer(books, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(list(response.data.values())[3], serializer.data)
 
     def test_genre_list(self):
         sample_genres()
@@ -99,7 +99,7 @@ class PrivateBookApiTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    def test_book_post(self):
+    def test_book_post_forbidden(self):
         payload = {
             "title": "Test",
             "author": "Test",
@@ -117,7 +117,7 @@ class PrivateBookApiTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_genre_post(self):
+    def test_genre_post_forbidden(self):
         payload = {
             "name": "Test",
         }
