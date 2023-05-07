@@ -12,8 +12,11 @@ click==8.1.3
 click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
+cron-descriptor==1.2.35
 Django==4.2
+django-celery-beat==2.5.0
 django-debug-toolbar==4.0.0
+django-timezone-field==5.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 drf-spectacular==0.26.2
@@ -30,8 +33,12 @@ pathspec==0.11.1
 Pillow==9.5.0
 platformdirs==3.2.0
 prompt-toolkit==3.0.38
+psycopg2==2.9.6
+psycopg2-binary==2.9.6
 PyJWT==2.6.0
 pyrsistent==0.19.3
+python-crontab==2.7.1
+python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-telegram-bot==20.2
 pytz==2023.3
@@ -42,6 +49,7 @@ rfc3986==1.5.0
 six==1.16.0
 sniffio==1.3.0
 sqlparse==0.4.4
+tzdata==2023.3
 uritemplate==4.1.1
 urllib3==1.26.15
 vine==5.0.0
