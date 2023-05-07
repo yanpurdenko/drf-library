@@ -28,6 +28,7 @@ class Borrowing(models.Model):
                 name="check_actual_return_date",
             ),
         ]
+        ordering = ["borrow_date"]
 
     @property
     def total_price(self) -> Decimal:
