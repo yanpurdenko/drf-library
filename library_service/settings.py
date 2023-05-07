@@ -13,6 +13,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -90,6 +91,16 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "HOST": os.environ["POSTGRES_HOST"],
+#         "NAME": os.environ["POSTGRES_DB"],
+#         "USER": os.environ["POSTGRES_USER"],
+#         "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -170,7 +181,7 @@ SIMPLE_JWT = {
 CELERY_BEAT_SCHEDULE = {
     "check_overdue_borrowings": {
         "task": "borrowings.tasks.check_overdue_borrowings",
-        "schedule": timedelta(minutes=1),
+        "schedule": crontab(hour=9, minute=0),
     },
 }
 
