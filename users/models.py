@@ -43,7 +43,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     id = models.UUIDField(
         primary_key=True,
-        default=uuid.uuid4(),
+        default=uuid.uuid4,
         editable=False,
     )
     username = None
