@@ -27,7 +27,6 @@ class BorrowingSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        print(validated_data)
         with transaction.atomic():
             instance = super().create(validated_data)
             instance.book_id.inventory -= 1
