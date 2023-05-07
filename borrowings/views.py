@@ -83,8 +83,8 @@ class BorrowingsViewSet(
         parameters=[
             OpenApiParameter(
                 "user_id",
-                type={"type": "list", "items": {"type": "string"}},
-                description="Filter by user id (ex. ?user_id=uuid)"
+                type={"type": "list", "items": {"type": "int"}},
+                description="Filter by user id (ex. ?user_id=id)"
             ),
             OpenApiParameter(
                 "is_active",
