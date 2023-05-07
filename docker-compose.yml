@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - /Users/yan.purdenko/MateAcademy/pet-project/library/data/db:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "python manage.py wait_for_db &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  redis:
+    image: redis:alpine
+    command: redis-server --bind 0.0.0.0
+    ports:
+      - "6379:6379"
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A library_service worker --loglevel=info --concurrency=4"
+    depends_on:
+      - web
+      - redis
+      - db
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             celery -A library_service beat --loglevel=info"
+    depends_on:
+      - web
+      - redis
+      - db
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
