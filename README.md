@@ -59,7 +59,7 @@ Docker should be installed
 docker-compose build
 docker-compose up
 ```
-Alos use http://127.0.0.1:8000/ url instead of http://0.0.0.0:8000/
+Also use http://127.0.0.1:8000/ url instead of http://0.0.0.0:8000/
 
 
 ## Getting access
