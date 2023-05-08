@@ -64,7 +64,11 @@ Alos use http://127.0.0.1:8000/ url instead of http://0.0.0.0:8000/
 
 ## Getting access
 
-- create user via /api/users/token/
+Test user credentials:
+```shell
+test@user.com
+testpassword
+```
 - get access token via /api/users/token/
 
 
